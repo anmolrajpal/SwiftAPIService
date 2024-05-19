@@ -43,28 +43,3 @@ extension APIEndpoint {
       60 /// Default timeout interval is `60`
    }
 }
-
-enum Endpoint: APIEndpoint {
-   
-   /// Endpoint to fetch latest posts from server
-   case getPosts, getUsers
-   
-   /// Endpoint to update a post by ID on server
-   case updatePost(postID: String)
-   
-
-   func path() -> String {
-      switch self {
-         case .getPosts: return "/posts"
-         case .getUsers: return "/users"
-         case .updatePost(let postID): return "/posts/\(postID)/update"
-      }
-   }
-   
-   func httpMethod() -> HTTPMethod {
-      switch self {
-         case .getPosts, .getUsers: return .get
-         case .updatePost: return .post
-      }
-   }
-}
