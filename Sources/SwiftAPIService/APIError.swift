@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum APIError: Error {
+public enum APIError: Error {
    
-   static let commonErrorDescription = "Something went wrong. Please try again later."
+   public static let commonErrorDescription = "Something went wrong. Please try again later."
    
    case cancelled
    case invalidURL
@@ -27,14 +27,14 @@ extension APIError: Equatable {
       return String(describing: self).components(separatedBy: "(").first
    }
    
-   static func == (lhs: APIError, rhs: APIError) -> Bool {
+   public static func == (lhs: APIError, rhs: APIError) -> Bool {
       lhs.value == rhs.value
    }
 }
 
 extension APIError: LocalizedError {
    
-   var localizedDescription: String {
+   public var localizedDescription: String {
       switch self {
          case .cancelled: return "Network operation cancelled by the user"
          case .invalidURL: return "Error constructing URL"
@@ -48,7 +48,7 @@ extension APIError: LocalizedError {
       }
    }
    
-   var publicDescription: String {
+   public var publicDescription: String {
       switch self {
          case .cancelled,
                .noResponse,
