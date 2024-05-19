@@ -9,7 +9,7 @@ struct GenerateHelpers: CommandPlugin {
       do {
          try trigger(context: context)
       } catch {
-         fatalError("Failed")
+         fatalError("Failed: \(error.localizedDescription)")
       }
       // Get the path for the generated file (consider user configuration)
 //      let generatedFilePath = getGeneratedFilePath(context: context)
