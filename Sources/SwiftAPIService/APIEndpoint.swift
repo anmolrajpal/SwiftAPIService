@@ -37,7 +37,7 @@ public protocol APIEndpoint {
    func requestTimeoutInterval() -> TimeInterval
 }
 
-extension APIEndpoint {
+public extension APIEndpoint {
    
    func requestTimeoutInterval() -> TimeInterval {
       60 /// Default timeout interval is `60`
