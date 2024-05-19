@@ -15,11 +15,11 @@ public struct APIConfiguration {
    let apiSubdirectory:String
    let isLoggingEnabled: Bool
    
-   init(apiURLScheme: String,
-        apiHost: String,
-        port: Int?,
-        apiSubdirectory: String,
-        isLoggingEnabled: Bool = false) {
+   public init(apiURLScheme: String,
+               apiHost: String,
+               port: Int?,
+               apiSubdirectory: String,
+               isLoggingEnabled: Bool = false) {
       self.apiURLScheme = apiURLScheme
       self.apiHost = apiHost
       self.port = port

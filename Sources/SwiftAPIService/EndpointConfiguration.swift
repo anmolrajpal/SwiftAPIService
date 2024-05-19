@@ -14,11 +14,11 @@ public struct EndpointConfiguration {
    let encoder: JSONEncoder
    let sessionConfiguration: URLSessionConfiguration
    
-   init(expectedResponseStatus: [ResponseStatus] = [],
-        expectData: Bool = true,
-        decoder: JSONDecoder = .apiServiceDecoder,
-        encoder: JSONEncoder = .apiServiceEncoder,
-        sessionConfiguration: URLSessionConfiguration = .defaultConfiguration()) {
+   public init(expectedResponseStatus: [ResponseStatus] = [],
+               expectData: Bool = true,
+               decoder: JSONDecoder = .apiServiceDecoder,
+               encoder: JSONEncoder = .apiServiceEncoder,
+               sessionConfiguration: URLSessionConfiguration = .defaultConfiguration()) {
       self.expectedResponseStatus = expectedResponseStatus
       self.expectData = expectData
       self.decoder = decoder

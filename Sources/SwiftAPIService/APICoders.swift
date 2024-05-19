@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension JSONDecoder {
+public extension JSONDecoder {
    static let apiServiceDecoder:JSONDecoder = {
       let decoder = JSONDecoder()
       decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -15,7 +15,8 @@ extension JSONDecoder {
       return decoder
    }()
 }
-extension JSONEncoder {
+
+public extension JSONEncoder {
    static let apiServiceEncoder:JSONEncoder = {
       let encoder = JSONEncoder()
       encoder.keyEncodingStrategy = .convertToSnakeCase
