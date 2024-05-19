@@ -20,11 +20,13 @@ extension APIServer {
       if let port = configuration.port {
          components.port = port
       }
+      var path = configuration.apiSubdirectory ?? ""
       if let concatenatingPath = pathToJoin {
-         components.path = configuration.apiSubdirectory + endpoint.path() + "/\(concatenatingPath)"
+         path += endpoint.path() + "/\(concatenatingPath)"
       } else {
-         components.path = configuration.apiSubdirectory + endpoint.path()
+         path += endpoint.path()
       }
+      components.path = path
       if let parameters = parameters {
          components.setQueryItems(with: parameters)
       }
