@@ -11,6 +11,23 @@ struct GenerateHelpers: CommandPlugin {
       } catch {
          fatalError("Failed: \(error.localizedDescription)")
       }
+      
+      // Execute the shell script to add the file to the Xcode project
+      let scriptPath = context.package.directory.appending("Scripts/add_endpoint_to_xcode.sh").string
+      
+      let process = Process()
+      process.executableURL = URL(fileURLWithPath: "/bin/bash")
+      process.arguments = [scriptPath]
+      
+      try process.run()
+      process.waitUntilExit()
+      
+      if process.terminationStatus == 0 {
+         print("Endpoint.swift has been added to the Xcode.")
+      } else {
+         fatalError("Failed to add Endpoint.swift to the Xcode project.")
+      }
+      
       // Get the path for the generated file (consider user configuration)
 //      let generatedFilePath = getGeneratedFilePath(context: context)
 //      
@@ -99,7 +116,7 @@ extension GenerateHelpers: XcodeCommandPlugin {
    
    func triggerXcode(context: XcodeProjectPlugin.XcodePluginContext) throws {
       let fileManager = FileManager.default
-      let currentDirectoryPath = context.xcodeProject.directory
+      let currentDirectoryPath = context.xcodeProject.targets
       let filePath = "\(currentDirectoryPath)/Endpoint.swift"
       
       let content = """
@@ -119,6 +136,22 @@ extension GenerateHelpers: XcodeCommandPlugin {
          // Create the Endpoint.swift file
          try content.write(toFile: filePath, atomically: true, encoding: .utf8)
          print("Endpoint.swift has been generated.")
+      }
+      
+      // Execute the shell script to add the file to the Xcode project
+      let scriptPath = context.pluginWorkDirectory.appending("Scripts/add_endpoint_to_xcode.sh").string
+      
+      let process = Process()
+      process.executableURL = URL(fileURLWithPath: "/bin/bash")
+      process.arguments = [scriptPath]
+      
+      try process.run()
+      process.waitUntilExit()
+      
+      if process.terminationStatus == 0 {
+         print("Endpoint.swift has been added to the Xcode.")
+      } else {
+         fatalError("Failed to add Endpoint.swift to the Xcode project.")
       }
    }
 }
