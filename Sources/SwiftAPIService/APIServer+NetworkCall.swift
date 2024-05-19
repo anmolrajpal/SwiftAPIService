@@ -74,7 +74,7 @@ extension APIServer {
          log(data)
          do {
             var object = try endpointConfiguration.decoder.decode(Response.self, from: data)
-            object.responseStatus = responseStatus
+            object.setResponse(responseStatus)
             return object
          } catch let error {
             let message = "JSON Decoding Error: \(error)"
@@ -85,7 +85,7 @@ extension APIServer {
          let customObjectString = "{\"result\":\"success\",\"message\":\"Success. Empty Data or Data not required.\",\"data\":{}}"
          /// Explicit unwrapping because jsonString is static so the result is known and should be decoded to (RecurrentResult) -  type
          var customObject = try! endpointConfiguration.decoder.decode(Response.self, from: customObjectString.data(using: .utf8)!)
-         customObject.responseStatus = responseStatus
+         customObject.setResponse(responseStatus)
          return customObject
       }
    }
@@ -160,7 +160,7 @@ extension APIServer {
          
          do {
             var object = try endpointConfiguration.decoder.decode(Response.self, from: data)
-            object.responseStatus = responseStatus
+            object.setResponse(responseStatus)
             return object
          } catch let error {
             let message = "JSON Decoding Error: \(error)"
@@ -171,7 +171,7 @@ extension APIServer {
          let customObjectString = "{\"result\":\"success\",\"message\":\"Success. Empty Data or Data not required.\",\"data\":{}}"
          /// Explicit unwrapping because jsonString is static so the result is known and should be decoded to (RecurrentResult) -  type
          var customObject = try! endpointConfiguration.decoder.decode(Response.self, from: customObjectString.data(using: .utf8)!)
-         customObject.responseStatus = responseStatus
+         customObject.setResponse(responseStatus)
          return customObject
       }
    }

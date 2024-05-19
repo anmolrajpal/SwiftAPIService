@@ -14,6 +14,10 @@ public protocol BaseDecodable: Decodable {
 public extension BaseDecodable {
    var responseStatus: ResponseStatus {
       get { .unknownResponse }
-      set {}
+      set { responseStatus = newValue }
+   }
+   
+   mutating func setResponse(_ status: ResponseStatus) {
+      self.responseStatus = status
    }
 }
