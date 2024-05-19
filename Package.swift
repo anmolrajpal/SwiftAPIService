@@ -20,6 +20,16 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "SwiftAPIService"),
+        
+         .plugin(
+            name: "GenerateHelpers",
+            capability: .command(
+               intent: .custom(verb: "regenerate-helpers-swiftUI",
+                               description: "Generates the default placeholder files for the SwiftAPIService to plug and play network calls"),
+               permissions: [
+                  .writeToPackageDirectory(reason: "This command writes Endpoint.swift, SwiftAPIConfiguration.swift and SwiftAPIService+View.swift files in  a subdirectory to implement basic requirements for SwiftAPIService module.")
+               ]
+            )),
         .testTarget(
             name: "SwiftAPIServiceTests",
             dependencies: ["SwiftAPIService"]),

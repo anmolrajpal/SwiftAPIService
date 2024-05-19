@@ -1,0 +1,46 @@
+
+import SwiftUI
+import SwiftAPIService
+
+enum Endpoint: APIEndpoint {
+   
+   /// Endpoint to fetch latest users from server
+   case getUsers
+   
+   
+   func path() -> String {
+      switch self {
+         case .getUsers: return "/users"
+      }
+   }
+   
+   func httpMethod() -> HTTPMethod {
+      switch self {
+         case .getUsers: return .get
+      }
+      
+   }
+}
+
+extension EnvironmentValues {
+   /// Injects the APIService into the environment
+   var apiService: SwiftAPIService<Endpoint> {
+      get {
+         return self[SwiftAPIServiceKey.self]
+      }
+      set {
+         self[SwiftAPIServiceKey.self] = newValue
+      }
+   }
+}
+
+struct SwiftAPIServiceKey: EnvironmentKey {
+   static let defaultValue: SwiftAPIService<Endpoint> = .withConfiguration(.default)
+}
+
+extension APIConfiguration {
+   static let `default` = APIConfiguration(apiURLScheme: "https",
+                                           apiHost: "reqres.in",
+                                           apiSubdirectory: "/api",
+                                           isLoggingEnabled: true)
+}
