@@ -8,9 +8,12 @@
 import Foundation
 
 public protocol BaseDecodable: Decodable {
-   var responseStatus: ResponseStatus! { get set }
+   var responseStatus: ResponseStatus { get set }
 }
 
-class BaseDecodableClass: BaseDecodable {
-   var responseStatus: ResponseStatus! = nil
+public extension BaseDecodable {
+   var responseStatus: ResponseStatus {
+      get { .unknownResponse }
+      set {}
+   }
 }
