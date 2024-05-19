@@ -87,7 +87,7 @@ extension GenerateHelpers: XcodeCommandPlugin {
       do {
          try triggerXcode(context: context)
       } catch {
-         fatalError("Failed")
+         fatalError("Failed Xcode: \(error.localizedDescription)")
       }
    }
    
