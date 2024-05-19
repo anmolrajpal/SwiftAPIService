@@ -32,7 +32,7 @@ let package = Package(
          .plugin(
             name: "GenerateHelpers",
             capability: .command(
-               intent: .custom(verb: "regenerate-helpers-swiftUI",
+               intent: .custom(verb: "generate-helpers",
                                description: "Generates the default placeholder files for the SwiftAPIService to plug and play network calls"),
                permissions: [
                   .writeToPackageDirectory(reason: "This command writes Endpoint.swift, SwiftAPIConfiguration.swift and SwiftAPIService+View.swift files in  a subdirectory to implement basic requirements for SwiftAPIService module.")
