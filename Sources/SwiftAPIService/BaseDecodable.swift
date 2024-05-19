@@ -7,17 +7,4 @@
 
 import Foundation
 
-public protocol BaseDecodable: Decodable {
-   var responseStatus: ResponseStatus { get set }
-}
-
-public extension BaseDecodable {
-   var responseStatus: ResponseStatus {
-      get { .unknownResponse }
-      set { responseStatus = newValue }
-   }
-   
-   mutating func setResponse(_ status: ResponseStatus) {
-      self.responseStatus = status
-   }
-}
+public protocol BaseDecodable: Decodable {}

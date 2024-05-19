@@ -14,7 +14,7 @@ extension APIServer {
                            requestBody: Data? = nil,
                            bearerToken: String? = nil,
                            headers: [HTTPHeader]? = nil,
-                           endpointConfiguration: EndpointConfiguration = .default) async throws -> Response {
+                           endpointConfiguration: EndpointConfiguration = .default) async throws -> (Response, ResponseStatus) {
       
       var defaultHeaders = [HTTPHeader]()
       if requestBody != nil {
@@ -73,9 +73,8 @@ extension APIServer {
          }
          log(data)
          do {
-            var object = try endpointConfiguration.decoder.decode(Response.self, from: data)
-            object.setResponse(responseStatus)
-            return object
+            let object = try endpointConfiguration.decoder.decode(Response.self, from: data)
+            return (object, responseStatus)
          } catch let error {
             let message = "JSON Decoding Error: \(error)"
             log(message)
@@ -84,18 +83,17 @@ extension APIServer {
       } else {
          let customObjectString = "{\"result\":\"success\",\"message\":\"Success. Empty Data or Data not required.\",\"data\":{}}"
          /// Explicit unwrapping because jsonString is static so the result is known and should be decoded to (RecurrentResult) -  type
-         var customObject = try! endpointConfiguration.decoder.decode(Response.self, from: customObjectString.data(using: .utf8)!)
-         customObject.setResponse(responseStatus)
-         return customObject
+         let customObject = try! endpointConfiguration.decoder.decode(Response.self, from: customObjectString.data(using: .utf8)!)
+         return (customObject, responseStatus)
       }
    }
    
-   public func hitEndpoint<RequestBody>(_ endpoint: E,
-                                        params: [String: String]? = nil,
-                                        requestBody: RequestBody? = nil,
-                                        bearerToken: String? = nil,
-                                        headers: [HTTPHeader]? = nil,
-                                        endpointConfiguration: EndpointConfiguration = .default) async throws -> Response where RequestBody: Encodable {
+   public func hitEndpoint<RequestBody:Encodable>(_ endpoint: E,
+                                                  params: [String: String]? = nil,
+                                                  requestBody: RequestBody? = nil,
+                                                  bearerToken: String? = nil,
+                                                  headers: [HTTPHeader]? = nil,
+                                                  endpointConfiguration: EndpointConfiguration = .default) async throws -> (Response, ResponseStatus) {
       
       var defaultHeaders = [HTTPHeader]()
       if requestBody != nil {
@@ -159,9 +157,8 @@ extension APIServer {
          log(data)
          
          do {
-            var object = try endpointConfiguration.decoder.decode(Response.self, from: data)
-            object.setResponse(responseStatus)
-            return object
+            let object = try endpointConfiguration.decoder.decode(Response.self, from: data)
+            return (object, responseStatus)
          } catch let error {
             let message = "JSON Decoding Error: \(error)"
             log(message)
@@ -170,9 +167,8 @@ extension APIServer {
       } else {
          let customObjectString = "{\"result\":\"success\",\"message\":\"Success. Empty Data or Data not required.\",\"data\":{}}"
          /// Explicit unwrapping because jsonString is static so the result is known and should be decoded to (RecurrentResult) -  type
-         var customObject = try! endpointConfiguration.decoder.decode(Response.self, from: customObjectString.data(using: .utf8)!)
-         customObject.setResponse(responseStatus)
-         return customObject
+         let customObject = try! endpointConfiguration.decoder.decode(Response.self, from: customObjectString.data(using: .utf8)!)
+         return (customObject, responseStatus)
       }
    }
 }

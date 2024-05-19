@@ -35,7 +35,7 @@ public protocol Server<E, Response>: AnyObject {
                     requestBody: Data?,
                     bearerToken: String?,
                     headers: [HTTPHeader]?,
-                    endpointConfiguration: EndpointConfiguration) async throws -> Response
+                    endpointConfiguration: EndpointConfiguration) async throws -> (Response, ResponseStatus)
    
    
    /// This function makes a netowrk call with the provided configuration. This function takes `requestBody` argument of type `Data`
@@ -54,5 +54,5 @@ public protocol Server<E, Response>: AnyObject {
                                             requestBody: RequestBody?,
                                             bearerToken: String?,
                                             headers: [HTTPHeader]?,
-                                            endpointConfiguration: EndpointConfiguration) async throws -> Response
+                                            endpointConfiguration: EndpointConfiguration) async throws -> (Response, ResponseStatus)
 }
