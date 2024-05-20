@@ -120,18 +120,35 @@ struct GenerateHelpersPlugin: CommandPlugin {
    }
    
 }
-/*
+
 #if canImport(XcodeProjectPlugin)
 import XcodeProjectPlugin
 
 extension GenerateHelpersPlugin: XcodeCommandPlugin {
    func performCommand(context: XcodeProjectPlugin.XcodePluginContext, arguments: [String]) throws {
+      let tool = try context.tool(named: "generate-helpers")
+      let toolUrl = URL(fileURLWithPath: tool.path.string)
+      
+      let process = Process()
+      process.executableURL = toolUrl
+      
+      try process.run()
+      process.waitUntilExit()
+      
+      if process.terminationStatus == 0 {
+         print("Endpoint.swift has been generated and added to the Xcode project.")
+      } else {
+         print("Failed to generate Endpoint.swift.")
+      }
+      
       // Get the path for the generated file (consider user configuration)
+      /*
       do {
          try triggerXcode(context: context)
       } catch {
          fatalError("Failed Xcode: \(error.localizedDescription)")
       }
+      */
    }
    
    private func getGeneratedFilePath(context: XcodeProjectPlugin.XcodePluginContext) -> String {
@@ -182,4 +199,4 @@ extension GenerateHelpersPlugin: XcodeCommandPlugin {
    }
 }
 #endif
-*/
+
