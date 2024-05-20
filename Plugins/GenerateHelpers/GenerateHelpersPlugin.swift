@@ -3,9 +3,24 @@ import PackagePlugin
 import Foundation
 
 @main
-struct GenerateHelpers: CommandPlugin {
+struct GenerateHelpersPlugin: CommandPlugin {
    
    func performCommand(context: PluginContext, arguments: [String]) async throws {
+      let tool = try context.tool(named: "generate-helpers")
+      let toolUrl = URL(fileURLWithPath: tool.path.string)
+      
+      let process = Process()
+      process.executableURL = toolUrl
+      
+      try process.run()
+      process.waitUntilExit()
+      
+      if process.terminationStatus == 0 {
+         print("Endpoint.swift has been generated and added to the Xcode project.")
+      } else {
+         print("Failed to generate Endpoint.swift.")
+      }
+      /*
       do {
          try trigger(context: context)
       } catch {
@@ -13,21 +28,28 @@ struct GenerateHelpers: CommandPlugin {
       }
       
       // Execute the shell script to add the file to the Xcode project
-      let scriptPath = context.package.directory.appending("Scripts/add_endpoint_to_xcode.sh").string
-      
+      // Locate the script path
+      let scriptPath = Bundle.main.path(forResource: "add_endpoint_to_xcode", ofType: "sh")!
+
+      // Execute the shell script to add the file to the Xcode project
       let process = Process()
       process.executableURL = URL(fileURLWithPath: "/bin/bash")
       process.arguments = [scriptPath]
-      
-      try process.run()
-      process.waitUntilExit()
-      
-      if process.terminationStatus == 0 {
-         print("Endpoint.swift has been added to the Xcode.")
-      } else {
-         fatalError("Failed to add Endpoint.swift to the Xcode project.")
+
+      do {
+          try process.run()
+          process.waitUntilExit()
+
+          if process.terminationStatus == 0 {
+              print("Endpoint.swift has been added to the Xcode project.")
+          } else {
+              fatalError("Failed to add Endpoint.swift to the Xcode project.")
+          }
+      } catch {
+          fatalError("Failed to run the script: \(error)")
+          
       }
-      
+      */
       // Get the path for the generated file (consider user configuration)
 //      let generatedFilePath = getGeneratedFilePath(context: context)
 //      
@@ -88,17 +110,21 @@ struct GenerateHelpers: CommandPlugin {
          print("Endpoint.swift already exists.")
       } else {
          // Create the Endpoint.swift file
-         try content.write(toFile: filePath, atomically: true, encoding: .utf8)
-         print("Endpoint.swift has been generated.")
+         do {
+                 try content.write(toFile: filePath, atomically: true, encoding: .utf8)
+                 print("Endpoint.swift has been generated at \(filePath).")
+             } catch {
+                 fatalError("Failed to write Endpoint.swift: \(error)")
+             }
       }
    }
    
 }
-
+/*
 #if canImport(XcodeProjectPlugin)
 import XcodeProjectPlugin
 
-extension GenerateHelpers: XcodeCommandPlugin {
+extension GenerateHelpersPlugin: XcodeCommandPlugin {
    func performCommand(context: XcodeProjectPlugin.XcodePluginContext, arguments: [String]) throws {
       // Get the path for the generated file (consider user configuration)
       do {
@@ -156,3 +182,4 @@ extension GenerateHelpers: XcodeCommandPlugin {
    }
 }
 #endif
+*/
